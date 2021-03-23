@@ -1,0 +1,36 @@
+{
+  "ver": "2.3.5",
+  "uuid": "734a12a3-1644-4799-a3b4-6695ab79d37c",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "width": 141,
+  "height": 85,
+  "platformSettings": {},
+  "subMetas": {
+    "I Wanna Be The Guy-秘密的项目(Secre_爱给网_aigei_com": {
+      "ver": "1.0.4",
+      "uuid": "ba826a91-fc16-4fb5-b8c7-74b0ba6c5cfe",
+      "rawTextureUuid": "734a12a3-1644-4799-a3b4-6695ab79d37c",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 141,
+      "height": 85,
+      "rawWidth": 141,
+      "rawHeight": 85,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
