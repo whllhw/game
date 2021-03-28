@@ -20,6 +20,22 @@ cc.Class({
         },
         jump_time: {
             default: 0.1
+        },
+        label_state: {
+            default: null,
+            type: cc.Label
+        },
+        label_x: {
+            default: null,
+            type: cc.Label
+        },
+        label_y: {
+            default: null,
+            type: cc.Label
+        },
+        label_param: {
+            type: cc.Label,
+            default: null
         }
     },
 
@@ -41,7 +57,6 @@ cc.Class({
     },
 
     onKeyDown: function (event) {
-
         console.log(`Press ${event.keyCode} key`);
         switch (event.keyCode) {
             case cc.macro.KEY.a:
@@ -72,16 +87,9 @@ cc.Class({
     },
 
     jump: function () {
-        console.log(this.player.y);
-        // if (this.player_state !== 0) {
-        //     return;
-        // }
-        this.player_state |= 4;
-        // cc.tween(this.player)
-        //     .by(this.jump_time, { y: this.jump_height })
-        //     .by(this.jump_time, { y: -this.jump_height })
-        //     .call(() => {this.player_state = 0;})
-        //     .start();
+        if (~this.player_state & 4) {
+            this.player_state |= 4;
+        }
     },
 
     jump_canel: function () {
@@ -104,7 +112,6 @@ cc.Class({
         // if (diretion === 'left') {
         //     _move_speed = -_move_speed;
         // }
-        console.log(this.player.x);
         // this.player.x += _move_speed;
         // cc.tween(this.player)
         //     .by(this.move_time, {x: _move_speed})
@@ -116,7 +123,8 @@ cc.Class({
         if (diretion === 'left') {
             _move_speed = -_move_speed;
         }
-        this.player_state &= (0xffff - 3);
+        this.player_state &= 0xffff - 1;
+        this.player_state &= 0xffff - 2;
         // cc.tween(this.player)
         //     .by(1, { x: _move_speed })
         //     .call(() => {
@@ -129,41 +137,39 @@ cc.Class({
 
     // called every frame
     update: function (dt) {
-        // console.log(dt);
+        this.label_state.string = this.player_state;
+        this.label_x.string = this.player.x;
+        this.label_y.string = this.player.y;
         let params = {};
         if (this.player_state & 1) {
-            // tween_list.push(
-            //     cc.tween().by(dt, {x: -this.move_speed})
-            // );
             params['x'] = -this.move_speed;
         } else if (this.player_state & 2) {
-            // tween_list.push(
-            //     cc.tween().by(dt, {x: this.move_speed})
-            // );
             params['x'] = this.move_speed;
         }
         if (this.player_state & 4) {
-            // tween_list.push(
-            //     cc.tween().by(dt, {y: this.jump_height})
-            // );
             params['y'] = this.jump_height;
+            this.player_state &= 0xffff - 4;
         }
-        this.player_state = 0;
+        this.label_param.string = JSON.stringify(params);
         if ('x' in params || 'y' in params) {
 
         } else {
             return;
         }
-        let tween = cc.tween(this.player);
+        if ('y' in params && 'x' in params) {
+            console.log('ok');
+        }
         if ('x' in params) {
-            tween = tween
-                .by(dt, { x: params['x'] })
+            this.player.x += params['x'];
         }
         if ('y' in params) {
+            let tween = cc.tween(this.player);
             tween = tween
-                .by(dt * 10, { y: params['y'] })
-                .by(dt * 10, { y: -params['y'] })
+                .by(this.jump_time, { y: params['y'] })
+                .by(this.jump_time, { y: -params['y'] })
+                .call(() => {});
+            tween.start();
         }
-        tween.start();
+        
     },
 });
