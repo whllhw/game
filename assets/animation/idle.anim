@@ -3,9 +3,9 @@
   "_name": "idle",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 0.26666666666666666,
+  "_duration": 0.35,
   "sample": 60,
-  "speed": 0.5,
+  "speed": 0.6,
   "wrapMode": 2,
   "curveData": {
     "comps": {
@@ -14,25 +14,31 @@
           {
             "frame": 0,
             "value": {
-              "__uuid__": "c384fd4d-ad50-47d7-9b31-a71e3cb19520"
+              "__uuid__": "a54dc7f5-96b4-49c9-8350-a100f319ef6e"
             }
           },
           {
             "frame": 0.08333333333333333,
             "value": {
-              "__uuid__": "11d0cc37-d1a5-4cf7-b1c7-5fb3118cfc1c"
+              "__uuid__": "079ee3c9-9811-4d8d-87eb-27befd390db7"
             }
           },
           {
             "frame": 0.16666666666666666,
             "value": {
-              "__uuid__": "7046925a-bb57-4e0c-bf74-f62e3e9a413a"
+              "__uuid__": "dffa3a99-af42-4b9f-afd8-2ce57c23cc85"
             }
           },
           {
             "frame": 0.25,
             "value": {
-              "__uuid__": "b3943674-ab47-4970-8717-9d38c10dfbc4"
+              "__uuid__": "c6dd7f14-441e-461f-8be8-b59f282c1305"
+            }
+          },
+          {
+            "frame": 0.3333333333333333,
+            "value": {
+              "__uuid__": "a54dc7f5-96b4-49c9-8350-a100f319ef6e"
             }
           }
         ]

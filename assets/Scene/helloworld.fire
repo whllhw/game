@@ -180,7 +180,7 @@
       "array": [
         0,
         0,
-        523.0694610384633,
+        524.8113946933698,
         0,
         0,
         0,
@@ -476,8 +476,8 @@
         0,
         0,
         1,
-        2,
-        2,
+        1.5,
+        1.5,
         1
       ]
     },
@@ -539,10 +539,16 @@
     },
     "_clips": [
       {
-        "__uuid__": "8db18e58-16b5-4431-ba22-26e8f45e5b01"
+        "__uuid__": "b84ea254-c88d-4b61-8dea-84d98edbc796"
       },
       {
-        "__uuid__": "b84ea254-c88d-4b61-8dea-84d98edbc796"
+        "__uuid__": "8ca9dc8c-bdc0-4a89-a51f-1b281d42b6de"
+      },
+      {
+        "__uuid__": "1ab30bd2-f338-470c-9d19-985c356047ba"
+      },
+      {
+        "__uuid__": "8db18e58-16b5-4431-ba22-26e8f45e5b01"
       }
     ],
     "playOnLoad": false,
@@ -557,9 +563,9 @@
     },
     "_enabled": true,
     "x_accel": 5,
-    "x_max_speed": 10,
-    "y_accel": 5.499999999999998,
-    "y_vo_speed": 10,
+    "x_max_speed": 5,
+    "y_accel": 50,
+    "y_vo_speed": 16,
     "y_max_times": 2,
     "_id": "66viTd5IVGR6ziqigj6Il2"
   },

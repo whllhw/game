@@ -25,7 +25,7 @@ cc.Class({
 
         this.body = this.node.getChildByName('body');
         this.anim = this.body.getComponent(cc.Animation);
-        this.anim_idle = this.anim.play();
+        this.anim_state = {};
 
         this.acc_left = false;
         this.acc_right = false;
@@ -42,7 +42,6 @@ cc.Class({
     },
 
     onKeyDown: function (event) {
-        // console.log(`Press ${event.keyCode} key`);
         switch (event.keyCode) {
             case cc.macro.KEY.a:
             case cc.macro.KEY.left:
@@ -52,7 +51,6 @@ cc.Class({
                 this.acc_left = true;
                 // this.acc_right = false;
                 this.body.scaleX = -Math.abs(this.body.scaleX);
-                this.play_anim('walk');
                 break;
             case cc.macro.KEY.d:
             case cc.macro.KEY.right:
@@ -62,9 +60,8 @@ cc.Class({
                 }
                 this.acc_right = true;
                 this.body.scaleX = Math.abs(this.body.scaleX);
-                this.play_anim('walk');
                 break;
-            case cc.macro.KEY.space:
+            case cc.macro.KEY.shift:
                 if (this.y_times >= this.y_max_times) {
                     return;
                 }
@@ -81,37 +78,42 @@ cc.Class({
             case cc.macro.KEY.a:
             case cc.macro.KEY.left:
                 this.acc_left = false;
-                this.play_anim();
                 break;
             case cc.macro.KEY.d:
             case cc.macro.KEY.right:
                 this.acc_right = false;
-                this.play_anim();
                 break;
-            case cc.macro.KEY.space:
-                this.acc_height = false;
+            case cc.macro.KEY.shift:
                 break;
         }
     },
 
 
     play_anim(state = 'idle') {
-        if (state === 'idle') {
-            if (!this.anim_idle.isPlaying) {
-                return this.anim.play(state);
-            }
-        } else if (state === 'walk') {
-            if (this.anim_idle.isPlaying) {
-                return this.anim.play(state);
-            }
+        if (!this.anim_state[state]) {
+            this.anim_state[state] = this.anim.play(state);
+        } else if (!this.anim_state[state].isPlaying){
+            this.anim.play(state);
+        }
+    },
+
+    play_anim_by_state() {
+        if (this.acc_height) {
+            this.play_anim(this.y_speed > 0 ? 'jump' : 'down');
+        } else if (this.acc_left || this.acc_right) {
+            this.play_anim('walk');
+        } else {
+            this.play_anim('idle');
         }
     },
 
     move(dt) {
         if (this.acc_left) {
-            this.x_speed -= this.x_accel * dt;
+            // this.x_speed -= this.x_accel * dt;
+            this.x_speed = -this.x_max_speed;
         } else if (this.acc_right) {
-            this.x_speed += this.x_accel * dt;
+            // this.x_speed += this.x_accel * dt;
+            this.x_speed = this.x_max_speed;
         } else {
             this.x_speed = 0;
         }
@@ -150,5 +152,6 @@ cc.Class({
     update (dt) {
         this.move(dt);
         this.jump(dt);
+        this.play_anim_by_state();
     },
 });
