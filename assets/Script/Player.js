@@ -17,6 +17,16 @@ cc.Class({
         y_vo_speed: 100,
         // 跳跃次数
         y_max_times: 2,
+        // 子弹速度
+        bullet_speed: 10,
+        bullet: {
+            default: null,
+            type: cc.Prefab
+        },
+        bullet_set: {
+            default: null,
+            type: cc.Node
+        }
     },
 
     onLoad () {
@@ -61,13 +71,16 @@ cc.Class({
                 this.acc_right = true;
                 this.body.scaleX = Math.abs(this.body.scaleX);
                 break;
-            case cc.macro.KEY.shift:
+            case cc.macro.KEY.space:
                 if (this.y_times >= this.y_max_times) {
                     return;
                 }
                 this.acc_height = true;
                 this.y_speed = this.y_vo_speed;
                 this.y_times ++;
+                break;
+            case cc.macro.KEY.shift:
+                this.create_bullet();
                 break;
         }
     },
@@ -83,8 +96,20 @@ cc.Class({
             case cc.macro.KEY.right:
                 this.acc_right = false;
                 break;
-            case cc.macro.KEY.shift:
+            case cc.macro.KEY.space:
                 break;
+        }
+    },
+
+    create_bullet() {
+        let new_bullet = cc.instantiate(this.bullet);
+        this.bullet_set.addChild(new_bullet);
+        new_bullet.x = this.node.x;
+        new_bullet.y = this.node.y;
+        if (this.body.scaleX < 0) {
+            new_bullet.getComponent('orb').speed = -this.bullet_speed;
+        } else {
+            new_bullet.getComponent('orb').speed = this.bullet_speed;
         }
     },
 
