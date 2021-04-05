@@ -133,10 +133,10 @@ cc.Class({
     },
 
     move(dt) {
-        if (this.acc_left) {
+        if (this.acc_left && !this.acc_right) {
             // this.x_speed -= this.x_accel * dt;
             this.x_speed = -this.x_max_speed;
-        } else if (this.acc_right) {
+        } else if (this.acc_right && !this.acc_left) {
             // this.x_speed += this.x_accel * dt;
             this.x_speed = this.x_max_speed;
         } else {

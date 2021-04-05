@@ -54,7 +54,7 @@ cc.Class({
     },
 
     start () {
-        console.log(this.player);
+        // console.log(this.player);
     },
 
     update (dt) {
