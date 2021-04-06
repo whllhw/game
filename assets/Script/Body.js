@@ -23,9 +23,11 @@ cc.Class({
         
     },
 
-    // update (dt) {},
-
     onCollisionEnter: function (other, self) {
-        this.game.game_over();
-    }
+        if (other.node.name === 'sting') {
+            this.game.game_over();
+        }
+    },
+
+    // update (dt) {}
 });

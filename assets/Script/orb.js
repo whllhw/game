@@ -19,8 +19,9 @@ cc.Class({
 
     update (dt) {
         this.node.x += this.speed;
-        // if (this.check()) {
-        //     this.node.destory();
-        // }
+    },
+
+    onCollisionEnter: function (other, self) {
+        this.node.active = false;
     },
 });
