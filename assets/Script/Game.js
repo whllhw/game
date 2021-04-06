@@ -70,7 +70,7 @@ cc.Class({
 
     game_start() {
         this.game_over_node.active = false;
-        this.player.set_postion(0, 0);
+        this.player.init();
         this.game_state = 'playing';
     },
 

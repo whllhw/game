@@ -12,11 +12,12 @@ cc.Class({
         game_node: {
             type: cc.Node,
             default: null
-        }
+        },
     },
 
     onLoad () {
         this.game = this.game_node.getComponent('Game');
+        this.player = this.node.parent.getComponent('Player');
     },
 
     start () {
@@ -27,7 +28,16 @@ cc.Class({
         if (other.node.name === 'sting') {
             this.game.game_over();
         }
+        if (other.node.name === 'wall') {
+            this.player.stop_jump();
+        }
     },
+
+    onCollisionExit: function (other, self) {
+        if (other.node.name === 'wall') {
+            this.player.fall_down();
+        }
+    }
 
     // update (dt) {}
 });

@@ -15,6 +15,7 @@ cc.Class({
         // 跳跃加速度
         y_accel: 10,
         y_vo_speed: 100,
+        y_max_speed: 20,
         // 跳跃次数
         y_max_times: 2,
         // 子弹速度
@@ -33,14 +34,6 @@ cc.Class({
         this.body = this.node.getChildByName('body');
         this.anim = this.body.getComponent(cc.Animation);
         this.anim_state = {};
-
-        this.acc_left = false;
-        this.acc_right = false;
-        this.acc_height = false;
-
-        this.y_times = 0;
-        this.x_speed = 0;
-        this.y_speed =0;
     },
 
     move_left() {
@@ -77,10 +70,17 @@ cc.Class({
     },
 
     stop_jump() {
-        this.node.y = 0;
         this.y_speed = 0;
         this.y_times = 0;
         this.acc_height = false;
+    },
+
+    fall_down() {
+        if (!this.acc_height) {
+            this.y_speed = 0;
+            this.y_times = 0;
+            this.acc_height = true;
+        }
     },
 
     create_bullet() {
@@ -95,9 +95,19 @@ cc.Class({
         }
     },
 
-    set_postion: function(x, y) {
-        this.node.x = x;
-        this.node.y = y;
+    init() {
+        this.acc_left = false;
+        this.acc_right = false;
+        this.acc_height = true;
+
+        this.y_times = 0;
+        this.x_speed = 0;
+        this.y_speed = 0;
+
+        this.node.x = 0;
+        this.node.y = 0;
+
+        console.log('init');
     },
 
 
@@ -148,12 +158,10 @@ cc.Class({
             return;
         }
         this.y_speed -= (this.y_accel * dt);
-        this.node.y += this.y_speed;
-
-        if (this.node.y <= 0) {
-            this.stop_jump();
-        } else if (this.node.y > this.node.parent.height / 2) {
-            // this.node.y = this.node.parent.height / 2;
+        if (Math.abs(this.y_speed) > this.y_max_speed) {
+            this.node.y += this.y_speed > 0 ? this.y_max_speed : -this.y_max_speed;
+        } else {
+            this.node.y += this.y_speed;
         }
     },
 
