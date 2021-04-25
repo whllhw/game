@@ -10,12 +10,11 @@ cc.Class({
 
     properties: {
         // 移动加速度
-        // x_accel: 5,
-        x_max_speed: 20,
-        // 跳跃加速度
-        y_accel: 10,
-        y_vo_speed: 100,
-        y_max_speed: 20,
+        x_accel: 1500,
+        // 最大移动速度
+        x_max_speed: 300,
+        // 跳跃速度
+        y_v0_speed: 500,
         // 跳跃次数
         y_max_times: 2,
         // 子弹速度
@@ -27,13 +26,18 @@ cc.Class({
         bullet_set: {
             default: null,
             type: cc.Node
+        },
+        body: {
+            default: null,
+            type: cc.Node
         }
     },
 
     onLoad () {
-        this.body = this.node.getChildByName('body');
+        // this.body = this.node.getChildByName('body');
         this.anim = this.body.getComponent(cc.Animation);
         this.anim_state = {};
+        this.rigidBody = this.body.getComponent(cc.RigidBody);
     },
 
     move_left() {
@@ -65,7 +69,7 @@ cc.Class({
             return;
         }
         this.acc_height = true;
-        this.y_speed = this.y_vo_speed;
+        this.y_speed = this.y_v0_speed;
         this.y_times ++;
     },
 
@@ -73,6 +77,8 @@ cc.Class({
         this.y_speed = 0;
         this.y_times = 0;
         this.acc_height = false;
+
+        this.init_rigid_body(0);
     },
 
     fall_down() {
@@ -98,7 +104,7 @@ cc.Class({
     init() {
         this.acc_left = false;
         this.acc_right = false;
-        this.acc_height = true;
+        this.acc_height = false;
 
         this.y_times = 0;
         this.x_speed = 0;
@@ -107,7 +113,17 @@ cc.Class({
         this.node.x = 0;
         this.node.y = 0;
 
-        console.log('init');
+        this.body.x = 0;
+        this.body.y = 0;
+
+        this.init_rigid_body();
+
+        console.log('init');        
+    },
+
+    init_rigid_body(gravityScale = 3) {
+        this.rigidBody.linearVelocity = cc.v2();
+        this.rigidBody.gravityScale = gravityScale;
     },
 
 
@@ -120,8 +136,8 @@ cc.Class({
     },
 
     play_anim_by_state() {
-        if (this.acc_height) {
-            this.play_anim(this.y_speed > 0 ? 'jump' : 'down');
+        if (Math.abs(this.y_speed) > 1) {
+            this.play_anim(this.y_speed > 1 ? 'jump' : 'down');
         } else if (this.acc_left || this.acc_right) {
             this.play_anim('walk');
         } else {
@@ -131,11 +147,9 @@ cc.Class({
 
     move_dt(dt) {
         if (this.acc_left && !this.acc_right) {
-            // this.x_speed -= this.x_accel * dt;
-            this.x_speed = -this.x_max_speed;
+            this.x_speed -= this.x_accel * dt;
         } else if (this.acc_right && !this.acc_left) {
-            // this.x_speed += this.x_accel * dt;
-            this.x_speed = this.x_max_speed;
+            this.x_speed += this.x_accel * dt;
         } else {
             this.x_speed = 0;
         }
@@ -144,34 +158,31 @@ cc.Class({
             this.x_speed = this.x_speed > 0 ? this.x_max_speed : -this.x_max_speed;
         }
 
-        this.node.x += this.x_speed;
-
-        if (this.node.x > this.node.parent.width / 2) {
-            this.node.x = this.node.parent.width / 2;
-        } else if (this.node.x < -this.node.parent.width / 2) {
-            this.node.x = -this.node.parent.width / 2;
-        }
-    },
-
-    jump_dt(dt) {
-        if (!this.acc_height) {
-            return;
-        }
-        this.y_speed -= (this.y_accel * dt);
-        if (Math.abs(this.y_speed) > this.y_max_speed) {
-            this.node.y += this.y_speed > 0 ? this.y_max_speed : -this.y_max_speed;
+        let velocity = this.rigidBody.linearVelocity;
+        velocity.x = this.x_speed;
+        if (this.acc_height) {
+            this.y_speed = this.y_v0_speed;
+            velocity.y = this.y_speed;
+            this.acc_height = false;
         } else {
-            this.node.y += this.y_speed;
+            this.y_speed = velocity.y;
         }
+
+        if (velocity.y < 1) {
+            this.y_times = 0;
+        }
+
+        this.rigidBody.linearVelocity = velocity;
+        this.node.x = this.body.x;
+        this.node.y = this.body.y;
     },
 
     start () {
-
+        console.log('start');
     },
 
     update (dt) {
         this.move_dt(dt);
-        this.jump_dt(dt);
         this.play_anim_by_state();
     },
 });

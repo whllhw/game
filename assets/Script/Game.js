@@ -17,6 +17,13 @@ cc.Class({
         cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
 
         this.player = this.player_node.getComponent('Player');
+
+        cc.director.getPhysicsManager().enabled = true;
+        cc.director.getPhysicsManager().debugDrawFlags = cc.PhysicsManager.DrawBits.e_aabbBit |
+        cc.PhysicsManager.DrawBits.e_pairBit |
+        cc.PhysicsManager.DrawBits.e_centerOfMassBit |
+        cc.PhysicsManager.DrawBits.e_jointBit |
+        cc.PhysicsManager.DrawBits.e_shapeBit;
     },
 
     onDestroy() {
@@ -62,10 +69,6 @@ cc.Class({
     start() {
         this.game_start();
 
-        let manager = cc.director.getCollisionManager();
-        manager.enabled = true;
-        // manager.enabledDebugDraw = true;
-        // manager.enabledDrawBoundingBox = true;
     },
 
     game_start() {
