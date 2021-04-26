@@ -112,17 +112,6 @@
     "_id": ""
   },
   {
-    "__type__": "1f94aATYP9BJbqeaeLdXf0l",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "speed": 0,
-    "_id": ""
-  },
-  {
     "__type__": "cc.CircleCollider",
     "_name": "",
     "_objFlags": 0,
@@ -137,6 +126,17 @@
       "y": 0
     },
     "_radius": 8,
+    "_id": ""
+  },
+  {
+    "__type__": "9b651Jony5IQKNmvP3Jytzp",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "speed": 10,
     "_id": ""
   },
   {
