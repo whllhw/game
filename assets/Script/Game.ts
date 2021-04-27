@@ -9,6 +9,21 @@ export class Game extends cc.Component {
 
     @property(cc.Node)
     player_node: cc.Node = null;
+
+    @property(cc.Button)
+    attack_button: cc.Button = null;
+
+    @property(cc.Button)
+    jump_button: cc.Button = null;
+    
+    @property(cc.Button)
+    left_button: cc.Button = null;
+
+    @property(cc.Button)
+    right_button: cc.Button = null;
+
+    @property(cc.Button)
+    reset_button: cc.Button = null;
     
     player: Player = null;
     game_state: string;
@@ -25,6 +40,17 @@ export class Game extends cc.Component {
         // cc.PhysicsManager.DrawBits.e_centerOfMassBit |
         // cc.PhysicsManager.DrawBits.e_jointBit |
         // cc.PhysicsManager.DrawBits.e_shapeBit;
+        
+        this.attack_button.node.on(cc.Node.EventType.TOUCH_START, () => {this.onKeyDown({keyCode: cc.macro.KEY.shift})}, this);
+        this.jump_button.node.on(cc.Node.EventType.TOUCH_START, () => {this.onKeyDown({keyCode: cc.macro.KEY.space})}, this);
+        this.left_button.node.on(cc.Node.EventType.TOUCH_START, () => {this.onKeyDown({keyCode: cc.macro.KEY.a})}, this);
+        this.right_button.node.on(cc.Node.EventType.TOUCH_START, () => {this.onKeyDown({keyCode: cc.macro.KEY.d})}, this);
+        this.reset_button.node.on(cc.Node.EventType.TOUCH_START, () => {this.onKeyDown({keyCode: cc.macro.KEY.r})}, this);
+
+        this.attack_button.node.on(cc.Node.EventType.TOUCH_END, () => {this.onKeyUp({keyCode: cc.macro.KEY.shift})}, this);
+        this.jump_button.node.on(cc.Node.EventType.TOUCH_END, () => {this.onKeyUp({keyCode: cc.macro.KEY.space})}, this);
+        this.left_button.node.on(cc.Node.EventType.TOUCH_END, () => {this.onKeyUp({keyCode: cc.macro.KEY.a})}, this);
+        this.right_button.node.on(cc.Node.EventType.TOUCH_END, () => {this.onKeyUp({keyCode: cc.macro.KEY.d})}, this);
     }
 
     onDestroy() {

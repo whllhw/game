@@ -25,5 +25,14 @@ export default class Body extends cc.Component {
             this.game.game_over();
         }
     }
+
+    update (dt) {
+        let x = this.node.x;
+        let y = this.node.y;
+        if (Math.abs(x) > this.node.parent.width / 2
+            || Math.abs(y) > this.node.parent.height / 2) {
+            this.game.game_over();
+        }
+    }
     
 }
